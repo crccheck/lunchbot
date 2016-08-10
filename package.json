@@ -1,0 +1,25 @@
+{
+  "name": "@condenast/lunchapi",
+  "version": "0.0.0",
+  "description": "Find local lunch specials",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "eslint .",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:condenast/TODO.git"
+  },
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/condenast/TODO/issues"
+  },
+  "homepage": "https://github.com/condenast/TODO",
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.13.2"
+  },
+  "private": true
+}
