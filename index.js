@@ -5,7 +5,6 @@ Promise.all([
   slake(),
   stdavids(),
 ]).then((values) => {
-  values.forEach((x) => {
-    console.log(x.text());
-  });
+  const data = values.map((x) => Object.assign({}, x, { special: x.special.text() }));
+  console.log(data);
 });

@@ -2,6 +2,10 @@ import request from 'request-promise';
 import cheerio from 'cheerio';
 
 const url = 'http://www.stdave.org/about/on-campus/thursday-lunch/';
+const data = {
+  url,
+  name: "Café Divine at St. David's Episcopal Church",
+};
 
 function findOffsets (nodes) {
   let begin, end, $node;
@@ -24,5 +28,5 @@ export default async function () {
   const $rv = $('<div/>');
   const {begin, end} = findOffsets(nodes);
   $rv.append(nodes.slice(begin, end));
-  return $rv;
+  return Object.assign({special: $rv}, data);
 }
