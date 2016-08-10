@@ -1,8 +1,10 @@
 import slake from './venues/slake';
+import stdavids from './venues/stdavids';
 
-const slakeUpdate = slake();
-
-Promise.all([slakeUpdate]).then((values) => {
+Promise.all([
+  slake(),
+  stdavids(),
+]).then((values) => {
   values.forEach((x) => {
     console.log(x.text());
   });
