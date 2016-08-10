@@ -9,12 +9,21 @@ const rtm = new RtmClient(token, { logLevel: 'info' });
 
 let whoami = 'neptr';  // Actual name will be filled in upon connecting
 let myTest = new RegExp(`^${whoami}:?\\s+`);
+const venuesHash = {};
+_values(venues).forEach((x) => { venuesHash[x.data.name] = x.data; });
 
 
-function makeMessage(lunchOptions) {
-  return _values(lunchOptions)
-    .map((x) => x.data)
-    .map((x) => `* ${x.name} ${x.special && x.special.text() || ''}`)
+function makeMessage() {
+  function formatSpecial(special) {
+    if (!special) {
+      return '';
+    }
+
+    return `\`\`\`\n${special.text()}\n\`\`\``;
+  }
+
+  return _values(venuesHash)
+    .map((x) => `* ${x.name} ${x.url || ''} ${formatSpecial(x.special)}`)
     .join('\n');
 }
 
@@ -32,22 +41,20 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
   const messageContent = message.text.replace(myTest, '');
 
   if (messageContent.search(/^lunch$/) !== -1) {
-    const lunchOptions = Object.assign([], venues);
-    const lunchList = makeMessage(lunchOptions);
+    const lunchList = makeMessage();
 
     rtm.sendMessage(lunchList, message.channel, (authenticated, sentMessage) => {
       console.log('send!', sentMessage);
 
       Promise.all(_values(venues).filter((x) => !!x.scrape).map((x) => x.scrape()))
       .then((values) => {
-        const lunchData = values.map((x) => Object.assign({}, x, { special: x.special.text() }));
-        console.log('.', lunchData);
-        const text = sentMessage.text + '\n' + lunchData.map((x) => x.special).join('\n');
-        console.log('..', text);
+        values.forEach((x) => {
+          Object.assign(venuesHash[x.name], x);
+        });
+        const text = makeMessage();
         const newMessage = Object.assign({}, sentMessage, { text });
-        console.log('...new Message', newMessage);
         rtm.updateMessage(newMessage, (err, res) => {
-          console.log('...updateMessage', err, res);
+          console.log('updateMessage', err, res);
         });
       });
     });
