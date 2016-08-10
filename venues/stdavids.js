@@ -2,7 +2,7 @@ import request from 'request-promise';
 import cheerio from 'cheerio';
 
 const url = 'http://www.stdave.org/about/on-campus/thursday-lunch/';
-const data = {
+export const data = {
   url,
   name: "Café Divine at St. David's Episcopal Church",
 };
@@ -23,7 +23,7 @@ function findOffsets(nodes) {
   return { begin, end };
 }
 
-export default async function () {
+export async function scrape() {
   const body = await request(url);
   const $ = cheerio.load(body);
   const nodes = $('div.entry-content').children();
