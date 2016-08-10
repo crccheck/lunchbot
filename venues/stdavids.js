@@ -1,10 +1,10 @@
 import request from 'request-promise';
 import cheerio from 'cheerio';
 
-const url = 'http://www.stdave.org/about/on-campus/thursday-lunch/';
 export const data = {
-  url,
+  url: 'http://www.stdave.org/about/on-campus/thursday-lunch/',
   name: "Café Divine at St. David's Episcopal Church",
+  coordinates: [30.2684584, -97.7415823],
 };
 
 function findOffsets(nodes) {
@@ -24,7 +24,7 @@ function findOffsets(nodes) {
 }
 
 export async function scrape() {
-  const body = await request(url);
+  const body = await request(data.url);
   const $ = cheerio.load(body);
   const nodes = $('div.entry-content').children();
   const $rv = $('<div/>');
