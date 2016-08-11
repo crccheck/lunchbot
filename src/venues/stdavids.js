@@ -15,7 +15,9 @@ function findOffsets(nodes) {
     $node = cheerio(nodes[i]);
     if ($node.text() === 'Thursday Lunch') {
       begin = i;
-    } else if ($node.attr('id') === 'dinner') {
+    } else if (begin && $node.text().search(/\w+\s\d+,\s\d{4}/) !== -1) {
+      begin = i; // skip intro text
+    } else if (begin && $node.attr('id') === 'dinner') {
       end = i;
       break;
     }
