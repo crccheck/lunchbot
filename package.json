@@ -1,7 +1,7 @@
 {
-  "name": "@condenast/lunchapi",
+  "name": "@condenast/lunchbot",
   "version": "0.0.0",
-  "description": "Find local lunch specials",
+  "description": "Find local lunch spots",
   "main": "index.js",
   "scripts": {
     "//pretest": "eslint .",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com:condenast/TODO.git"
+    "url": "git://github.com:condenast/x-lunchbot.git"
   },
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/condenast/TODO/issues"
+    "url": "https://github.com/condenast/x-lunchbot/issues"
   },
-  "homepage": "https://github.com/condenast/TODO",
+  "homepage": "https://github.com/condenast/x-lunchbot",
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "eslint": "^3.2.2",
