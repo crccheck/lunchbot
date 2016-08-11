@@ -24,7 +24,7 @@ function findOffsets(nodes) {
 }
 
 export async function scrape() {
-  const body = await request(data.url);
+  const body = await request.get(data.url);
   const $ = cheerio.load(body);
   const nodes = $('div.entry-content').children();
   const $rv = $('<div/>');
