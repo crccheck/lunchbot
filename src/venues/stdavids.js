@@ -34,3 +34,8 @@ export async function scrape() {
   $rv.append(nodes.slice(begin, end));
   return Object.assign({ special: $rv }, data);
 }
+
+export function openAt(date) {
+  const dayHour = date.getUTCDay() * 100 + date.getUTCHours(); // eslint-disable-line
+  return (316 < dayHour && dayHour < 419); // eslint-disable-line
+}
