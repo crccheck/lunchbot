@@ -1,7 +1,6 @@
 import _values from 'lodash/values';
 import { RtmClient, CLIENT_EVENTS, RTM_EVENTS } from '@slack/client';
-
-const venues = require('require-all')(`${__dirname}/venues`);
+import lunch from './src/lunch';
 
 const token = process.env.SLACK_API_TOKEN;
 
@@ -9,8 +8,7 @@ const rtm = new RtmClient(token, { logLevel: 'info' });
 
 let whoami = 'neptr';  // Actual name will be filled in upon connecting
 let myTest = new RegExp(`^${whoami}:?\\s+`);
-const venuesHash = {};
-_values(venues).forEach((x) => { venuesHash[x.data.name] = x.data; });
+const venues = lunch();  // TODO give each request it's own venues, multi-tenant
 
 
 function makeMessage() {
@@ -22,8 +20,8 @@ function makeMessage() {
     return `\`\`\`\n${special.text()}\n\`\`\``;
   }
 
-  return _values(venuesHash)
-    .map((x) => `* ${x.name} ${x.url || ''} ${formatSpecial(x.special)}`)
+  return _values(venues)
+    .map((x) => `* ${x.data.name} ${formatSpecial(x.data.special)}`)
     .join('\n');
 }
 
@@ -45,11 +43,10 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
 
     rtm.sendMessage(lunchList, message.channel, (authenticated, sentMessage) => {
       console.log('send!', sentMessage);
-
       Promise.all(_values(venues).filter((x) => !!x.scrape).map((x) => x.scrape()))
       .then((values) => {
         values.forEach((x) => {
-          Object.assign(venuesHash[x.name], x);
+          Object.assign(venues[x.name], { data: x });
         });
         const text = makeMessage();
         const newMessage = Object.assign({}, sentMessage, { text });
