@@ -31,6 +31,7 @@
     "babel-preset-es2015-node6": "^0.3.0",
     "babel-preset-stage-3": "^6.11.0",
     "cheerio": "^0.20.0",
+    "geodist": "^0.2.1",
     "lodash": "^4.14.2",
     "request": "^2.74.0",
     "request-promise": "^4.1.1",

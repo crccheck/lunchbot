@@ -20,8 +20,16 @@ function makeMessage() {
     return `\`\`\`\n${special.text()}\n\`\`\``;
   }
 
+  function formatDistance(venue) {
+    if (!venue.distance) {
+      return '';
+    }
+
+    return `${venue.distance}m`;
+  }
+
   return _values(venues)
-    .map((x) => `* ${x.data.name} ${formatSpecial(x.data.special)}`)
+    .map((x) => `* ${x.data.name} (${formatDistance(x)}) ${formatSpecial(x.data.special)}`)
     .join('\n');
 }
 
