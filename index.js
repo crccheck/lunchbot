@@ -1,35 +1,37 @@
 import _values from 'lodash/values';
-import { RtmClient, CLIENT_EVENTS, RTM_EVENTS } from '@slack/client';
+import { RtmClient, WebClient, CLIENT_EVENTS, RTM_EVENTS } from '@slack/client';
 import toMarkdown from 'to-markdown';
 import lunch from './src/lunch';
 
 const token = process.env.SLACK_API_TOKEN;
 
 const rtm = new RtmClient(token, { logLevel: 'info' });
+const web = new WebClient(token);
 let whoami = 'neptr';  // Actual name will be filled in upon connecting
 let myTest = new RegExp(`^${whoami}:?\\s+`);
 
+function isDirectMessage(channelName) {
+  return channelName[0] === 'D';
+}
 
 function formatText(venues) {
   function formatSpecial(special) {
-    if (!special) {
-      return '';
-    }
-
-    return `\`\`\`\n${toMarkdown(special.html())}\n\`\`\``;
+    return special ? toMarkdown(special.html()) : '';
   }
 
   function formatDistance(venue) {
-    if (!venue.distance) {
-      return '';
-    }
-
-    return `${venue.distance}m`;
+    return venue.distance ? `distance: ${venue.distance}m` : '';
   }
 
   return _values(venues)
-    .map((x) => `* ${x.data.name} (${formatDistance(x)}) ${formatSpecial(x.data.special)}`)
-    .join('\n');
+    .map((x) => ({
+      fallback: x.data.name,
+      title: x.data.name,
+      title_link: x.data.url,
+      text: formatSpecial(x.data.special),
+      footer: formatDistance(x),
+      mrkdown_in: ['text'],
+    }));
 }
 
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
@@ -39,8 +41,11 @@ rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
 });
 
 rtm.on(RTM_EVENTS.MESSAGE, (message) => {
-  // TODO privmsg
-  if (!myTest.test(message.text)) {
+  if (!message.text) {
+    return;
+  }
+
+  if (!myTest.test(message.text) && !isDirectMessage(message.channel)) {
     return;
   }
 
@@ -48,18 +53,17 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
 
   if (messageContent.search(/^lunch$/) !== -1) {
     const venues = lunch();
-    const lunchList = formatText(venues);
+    const attachments = formatText(venues);
 
-    rtm.sendMessage(lunchList, message.channel, (authenticated, sentMessage) => {
-      console.log('send!', sentMessage);
+    web.chat.postMessage(message.channel, undefined, { attachments }, (__, sentMessage) => {
+      // console.log('postMessage', sentMessage)
       Promise.all(_values(venues).filter((x) => !!x.scrape).map((x) => x.scrape()))
       .then((values) => {
         values.forEach((x) => {
           Object.assign(venues[x.name], { data: x });
         });
-        const text = formatText(venues);
-        const newMessage = Object.assign({}, sentMessage, { text });
-        rtm.updateMessage(newMessage, (err, res) => {
+        web.chat.update(sentMessage.ts, sentMessage.channel, undefined,
+                        { attachments: formatText(venues) }, (err, res) => {
           console.log('updateMessage', err, res);
         });
       });
