@@ -4,8 +4,8 @@
   "description": "Find local lunch specials",
   "main": "index.js",
   "scripts": {
-    "pretest": "eslint .",
-    "test": ""
+    "//pretest": "eslint .",
+    "test": "mocha --recursive --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -18,11 +18,14 @@
   },
   "homepage": "https://github.com/condenast/TODO",
   "devDependencies": {
+    "babel-eslint": "^6.1.2",
     "eslint": "^3.2.2",
     "eslint-config-airbnb": "^10.0.0",
+    "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-import": "^1.12.0",
     "eslint-plugin-jsx-a11y": "^2.0.1",
-    "eslint-plugin-react": "^6.0.0"
+    "eslint-plugin-react": "^6.0.0",
+    "mocha": "^3.0.2"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +33,7 @@
     "babel-cli": "^6.11.4",
     "babel-preset-es2015-node6": "^0.3.0",
     "babel-preset-stage-3": "^6.11.0",
+    "chai": "^3.5.0",
     "cheerio": "^0.20.0",
     "geodist": "^0.2.1",
     "lodash": "^4.14.2",
