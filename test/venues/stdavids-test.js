@@ -22,6 +22,9 @@ describe('stdavids', () => {
       const dummyHTML = readFileSync(fixturePath, { encoding: 'utf8' });
       sinon.stub(request, 'get').returns(dummyHTML);
     });
+    after(() => {
+      request.get.restore();
+    });
     it('extracts the special from the HTML', () =>
       scrape().then((venueData) => {
         expect(venueData.special.text()).to.be.ok;

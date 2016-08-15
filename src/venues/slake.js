@@ -10,5 +10,5 @@ export const data = {
 export async function scrape() {
   const body = await request(data.url);
   const $ = cheerio.load(body);
-  return Object.assign({ special: $('#cff .cff-text') }, data);
+  return Object.assign({ special: $('#cff .cff-text:contains("Entree")') }, data);
 }
