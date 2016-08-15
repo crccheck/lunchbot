@@ -1,19 +1,25 @@
 import _values from 'lodash/values';
 import geodist from 'geodist';
 
-const venues = require('require-all')(`${__dirname}/venues`);
+const venueModules = require('require-all')(`${__dirname}/venues`);
 
-const HOMES = {
+export const HOMES = {
   capfac: [30.268899, -97.740614],
 };
 
-export default function get(options = {}) {
+/**
+ * Internal function that does the actual work of collecting venues..
+ * Written and exported only to support testing.
+ * @param  {Object} venues a hash of Venue modules
+ * @param  {Date} openAt only get venues that are open
+ * @param  {Number} withinMeters only get venues this many meters away (point to point)
+ * @return {Object}
+ */
+export function _get(venues, // eslint-disable-line no-underscore-dangle
+                     openAt = new Date(), // TODO use coordinate-tz to localized
+                     withinMeters = 3219, // 2 miles
+                    ) {
   const venuesHash = {};
-
-  // TODO use coordinate-tz to make sure the date is localized to the requestor's timezone
-  const openAt = options.openAt || new Date();
-  const withinMeters = options.distance || 3219; // 2 miles
-
   _values(venues)
     // Only show open venues
     .filter((x) => (x.openAt ? x.openAt(openAt) : true))
@@ -29,4 +35,8 @@ export default function get(options = {}) {
       }
     });
   return venuesHash;
+}
+
+export default function get(options = {}) {
+  return _get(venueModules, options.openAt, options.distance);
 }
