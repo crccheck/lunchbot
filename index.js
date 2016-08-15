@@ -17,7 +17,7 @@ function isDirectMessage(channelName) {
 
 function formatText(venues) {
   function formatSpecial(special) {
-    return special ? toMarkdown(special.html()) : '';
+    return (special && (special.html ? toMarkdown(special.html()) : special)) || '';
   }
 
   function formatDistance(venue) {
