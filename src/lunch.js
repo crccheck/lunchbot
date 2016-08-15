@@ -1,4 +1,4 @@
-import _values from 'lodash/values';
+import _ from 'lodash';
 import geodist from 'geodist';
 
 const venueModules = require('require-all')(`${__dirname}/venues`);
@@ -10,17 +10,19 @@ export const HOMES = {
 /**
  * Internal function that does the actual work of collecting venues..
  * Written and exported only to support testing.
- * @param  {Object} venues a hash of Venue modules
- * @param  {Date} openAt only get venues that are open
+ * @param  {Object} venues A hash of Venue modules
+ * @param  {int} limit only get this many venues
  * @param  {Number} withinMeters only get venues this many meters away (point to point)
- * @return {Object}
+ * @param  {Date} openAt only get venues that are open
+ * @return {Object} venues A hash of venue objects
  */
 export function _get(venues, // eslint-disable-line no-underscore-dangle
-                     openAt = new Date(), // TODO use coordinate-tz to localized
+                     limit = 5,
                      withinMeters = 3219, // 2 miles
+                     openAt = new Date(), // TODO use coordinate-tz to localized
                     ) {
   const venuesHash = {};
-  _values(venues)
+  _.values(venues)
     // Only show open venues
     .filter((x) => (x.openAt ? x.openAt(openAt) : true))
     // Annotate data with the distance and conditionally show them if close
@@ -34,9 +36,9 @@ export function _get(venues, // eslint-disable-line no-underscore-dangle
         console.warn(`Missing coordinates, ${x.data.name} won't show`);
       }
     });
-  return venuesHash;
+  return _.fromPairs(_.slice(_.shuffle(_.toPairs(venuesHash)), 0, limit));
 }
 
 export default function get(options = {}) {
-  return _get(venueModules, options.openAt, options.distance);
+  return _get(venueModules, options.limit, options.distance, options.openAt);
 }
