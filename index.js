@@ -27,12 +27,14 @@ function formatText(venues) {
   const justVenues = _toPairs(venues)
     .filter((x) => x[0][0] !== '_');
 
+  const text = `Here's ${_values(justVenues).length} options (out of ${venues._meta.total})`;
+
   return justVenues
     .map((x, idx) => ({
       fallback: x[1].data.name,
       title: x[1].data.name,
       title_link: x[1].data.url,
-      pretext: !idx && `Showing ${_values(justVenues).length} of ${venues._meta.total}`,
+      pretext: !idx && text,
       text: formatMenu(x[1].data.menu),
       footer: formatDistance(x[1]),
       mrkdown_in: ['text'],
