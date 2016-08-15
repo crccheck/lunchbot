@@ -55,6 +55,9 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
     const venues = lunch();
     const attachments = formatText(venues);
 
+    const venueMeta = venues._meta;
+    delete venues._meta;
+
     web.chat.postMessage(message.channel, undefined, { attachments }, (__, sentMessage) => {
       // console.log('postMessage', sentMessage)
       Promise.all(_values(venues).filter((x) => !!x.scrape).map((x) => x.scrape()))

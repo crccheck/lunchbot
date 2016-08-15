@@ -18,26 +18,32 @@ describe('_get', () => {
     console.warn.restore();
   });
 
+  it('generates _meta', () => {
+    const venues = _get(MOCK_VENUES);
+    expect(_keys(venues)).to.contain('_meta');
+    expect(_keys(venues._meta)).to.contain('limit');
+    expect(_keys(venues._meta)).to.contain('total');
+  });
   it('skips closed venues', () => {
     const venues = _get(MOCK_VENUES);
-    expect(_keys(venues).length).to.be.equal(1);
+    expect(_keys(venues).length).to.be.equal(2);
     expect(_keys(venues)).to.not.contain('Bar Restaurant');
   });
   it('skips venues without coordinates', () => {
     const venues = _get(MOCK_VENUES);
-    expect(_keys(venues).length).to.be.equal(1);
+    expect(_keys(venues).length).to.be.equal(2);
     expect(_keys(venues)).to.not.contain('Baz Cemetary');
   });
 
   it('skips far venues', () => {
     const venues = _get(MOCK_VENUES);
-    expect(_keys(venues).length).to.be.equal(1);
+    expect(_keys(venues).length).to.be.equal(2);
     expect(_keys(venues)).to.not.contain('Null Island');
   });
 
   it('can include far venues', () => {
     const venues = _get(MOCK_VENUES, undefined, 1e10);
-    expect(_keys(venues).length).to.be.equal(2);
+    expect(_keys(venues).length).to.be.equal(3);
     expect(_keys(venues)).to.contain('Null Island');
   });
 });

@@ -16,7 +16,7 @@ export const HOMES = {
  * @param  {Date} openAt only get venues that are open
  * @return {Object} venues A hash of venue objects
  */
-export function _get(venues, // eslint-disable-line no-underscore-dangle
+export function _get(venues,
                      limit = 5,
                      withinMeters = 3219, // 2 miles
                      openAt = new Date(), // TODO use coordinate-tz to localized
@@ -36,7 +36,14 @@ export function _get(venues, // eslint-disable-line no-underscore-dangle
         console.warn(`Missing coordinates, ${x.data.name} won't show`);
       }
     });
-  return _.fromPairs(_.slice(_.shuffle(_.toPairs(venuesHash)), 0, limit));
+  const rv = _.fromPairs(_.slice(_.shuffle(_.toPairs(venuesHash)), 0, limit));
+  rv._meta = {
+    total: _.keys(venuesHash).length,
+    limit,
+    withinMeters,
+    openAt,
+  };
+  return rv;
 }
 
 export default function get(options = {}) {
