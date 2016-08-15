@@ -32,7 +32,7 @@ export async function scrape() {
   const $rv = $('<div/>');
   const { begin, end } = findOffsets(nodes);
   $rv.append(nodes.slice(begin, end));
-  return Object.assign({ special: $rv }, data);
+  return Object.assign({ menu: $rv }, data);
 }
 
 export function openAt(date) {

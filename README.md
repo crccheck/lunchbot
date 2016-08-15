@@ -57,8 +57,8 @@ The `data` object has all the context needed to render a template to the user:
 * `name` (required) -- The human friendly name of the venue
 * `coordinates` (required) -- The lat/long of the venue
 * `url` -- The url to link to. If there's a url to the daily specials, this is it
-* `special` -- A `cheerio` object representing the html for what the special is.
-  This is always scraped from `url`. In the future, we should support more types.
+* `menu` -- A `cheerio` object representing the html for what the menu/special is.
+  This is always scraped from `url`. Can also just be a String.
 
 > Why didn't you create a Venue class?
 We didn't need it

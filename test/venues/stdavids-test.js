@@ -25,9 +25,9 @@ describe('stdavids', () => {
     after(() => {
       request.get.restore();
     });
-    it('extracts the special from the HTML', () =>
+    it('extracts the menu from the HTML', () =>
       scrape().then((venueData) => {
-        expect(venueData.special.text()).to.be.ok;
+        expect(venueData.menu.text()).to.be.ok;
       })
     );
   });

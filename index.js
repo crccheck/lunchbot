@@ -16,8 +16,8 @@ function isDirectMessage(channelName) {
 }
 
 function formatText(venues) {
-  function formatSpecial(special) {
-    return (special && (special.html ? toMarkdown(special.html()) : special)) || '';
+  function formatMenu(menu) {
+    return (menu && (menu.html ? toMarkdown(menu.html()) : menu)) || '';
   }
 
   function formatDistance(venue) {
@@ -33,7 +33,7 @@ function formatText(venues) {
       title: x[1].data.name,
       title_link: x[1].data.url,
       pretext: !idx && `Showing ${_values(justVenues).length} of ${venues._meta.total}`,
-      text: formatSpecial(x[1].data.special),
+      text: formatMenu(x[1].data.menu),
       footer: formatDistance(x[1]),
       mrkdown_in: ['text'],
     }));
