@@ -13,6 +13,7 @@ export const HOMES = {
  * @param  {Object} venues A hash of Venue modules
  * @param  {int} limit only get this many venues
  * @param  {Number} withinMeters only get venues this many meters away (point to point)
+ * @param  {Array} origin The Lat/Long to use for reference
  * @param  {Date} openAt only get venues that are open
  * @return {Object} venues A hash of venue objects
  */
@@ -20,6 +21,7 @@ export function _get(venues,
                      limit = 5,
                      withinMeters = 3219, // 2 miles
                      openAt = new Date(), // TODO use coordinate-tz to localized
+                     origin = HOMES.capfac,
                     ) {
   const venuesHash = {};
   _.values(venues)
@@ -28,7 +30,7 @@ export function _get(venues,
     // Annotate data with the distance and conditionally show them if close
     .forEach((x) => {
       if (x.data.coordinates) {
-        const distance = geodist(HOMES.capfac, x.data.coordinates, { unit: 'meters' });
+        const distance = geodist(origin, x.data.coordinates, { unit: 'meters' });
         if (distance < withinMeters) {
           venuesHash[x.data.name] = Object.assign({}, x, { distance });
         }
@@ -47,5 +49,5 @@ export function _get(venues,
 }
 
 export default function get(options = {}) {
-  return _get(venueModules, options.limit, options.distance, options.openAt);
+  return _get(venueModules, options.limit, options.distance, options.origin, options.openAt);
 }
