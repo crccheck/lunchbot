@@ -15,6 +15,7 @@ export const HOMES = {
  * @param  {Number} withinMeters only get venues this many meters away (point to point)
  * @param  {Array} origin The Lat/Long to use for reference
  * @param  {Date} openAt only get venues that are open
+ * @param  {Boolean} onlyScrape Only return venues that have scrapeable menus
  * @return {Object} venues A hash of venue objects
  */
 export function _get(venues,
@@ -22,11 +23,15 @@ export function _get(venues,
                      withinMeters = 3219, // 2 miles
                      openAt = new Date(), // TODO use coordinate-tz to localized
                      origin = HOMES.capfac,
+                     onlyScrape = false,
                     ) {
   const venuesHash = {};
   _.values(venues)
     // Only show open venues
     .filter((x) => (x.openAt ? x.openAt(openAt) : true))
+    // Handle `onlyScrape`
+    // Should we include venues with static menu too? They're "special" e.g. Perry's Pork Chop
+    .filter((x) => (onlyScrape ? !!x.scrape : true))
     // Annotate data with the distance and conditionally show them if close
     .forEach((x) => {
       if (x.data.coordinates) {
@@ -49,5 +54,11 @@ export function _get(venues,
 }
 
 export default function get(options = {}) {
-  return _get(venueModules, options.limit, options.distance, options.origin, options.openAt);
+  return _get(venueModules,
+              options.limit,
+              options.distance,
+              options.origin,
+              options.openAt,
+              options.onlyScrape,
+             );
 }

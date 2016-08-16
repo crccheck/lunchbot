@@ -27,9 +27,7 @@ lunch({distance: 500});
 
 ### Options
 
-* 'limit': `int` -- Only return this many venues
-* `openAt`: `Date` --  Only return venues that are open at this datetime
-* `withinMeters` : `Number` -- Only return venues that are within this many meters
+See documentation for `src/lunch._get`;
 
 Adding more venues
 ------------------
