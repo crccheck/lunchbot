@@ -58,8 +58,10 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
 
   const messageContent = message.text.replace(myTest, '');
 
-  if (messageContent.search(/^lunch$/) !== -1) {
-    const venues = lunch();
+  if (messageContent.search(/^lunch\b/) !== -1) {
+    const venues = lunch({
+      onlyScrape: messageContent.search(/spec/) !== -1,
+    });
     const attachments = formatText(venues);
 
     web.chat.postMessage(message.channel, undefined, { attachments }, (__, sentMessage) => {
@@ -75,6 +77,8 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
             console.log('updateMessage', err, res);
           }
         );
+      }, reason => {
+        console.warn(reason);
       });
     });
   }
