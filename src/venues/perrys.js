@@ -1,6 +1,7 @@
 export const data = {
   name: "Perry's Steakhouse",
   coordinates: [30.269443, -97.743490],
+  menu: 'Pork chop',
 };
 
 export function openAt(date) {
