@@ -23,7 +23,7 @@ describe('mythaimom', () => {
   });
   describe('scrape without a menu', () => {
     before(() => {
-      sinon.stub(request, 'get').returns({ data:[] });
+      sinon.stub(request, 'get').returns({ data: [] });
     });
     after(() => {
       request.get.restore();

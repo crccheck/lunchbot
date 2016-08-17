@@ -52,8 +52,8 @@ describe('_get', () => {
     mockVenuesScrapeable.foo = Object.assign({}, MOCK_VENUES.foo, { scrape: () => {} });
 
     const venues = _get(mockVenuesScrapeable, undefined, 1e10, undefined, undefined, true);
-
     delete venues._meta;
+
     expect(_keys(venues).length).to.be.equal(1);
     expect(_keys(venues)).to.contain('Foo Deli');
   });

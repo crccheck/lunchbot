@@ -8,4 +8,4 @@ stdavids: ## St. David's
 	curl --silent http://www.stdave.org/about/on-campus/thursday-lunch/ > $@.html
 
 mythaimom: ## My Thai Mom
-	curl --silent https://graph.facebook.com/v2.7/200414600091489/feed?access_token=${FACEBOOK_APP_TOKEN}' > $@.json
+	curl --silent https://graph.facebook.com/v2.7/200414600091489/feed?access_token=${FACEBOOK_APP_TOKEN} > $@.json

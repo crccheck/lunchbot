@@ -4,7 +4,7 @@
   "description": "Find local lunch spots",
   "main": "index.js",
   "scripts": {
-    "//pretest": "eslint .",
+    "pretest": "eslint .",
     "test": "mocha --recursive --compilers js:babel-register"
   },
   "repository": {
