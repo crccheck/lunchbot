@@ -7,9 +7,16 @@ import lunch from './lunch';
 const token = process.env.SLACK_API_TOKEN;
 const web = new WebClient(token);
 
-export function formatText(venues) {
+// To format for Slack
+// https://www.npmjs.com/package/to-markdown#converters-array
+// https://www.youtube.com/watch?v=X66jntR0MVE
+const converters = [
+  { filter: ['b', 'strong'], replacement: (content) => `*${content}*` },
+];
+
+function formatText(venues) {
   function formatMenu(menu) {
-    return (menu && (menu.html ? toMarkdown(menu.html()) : menu)) || '';
+    return (menu && (menu.html ? toMarkdown(menu.html(), { converters }) : menu)) || '';
   }
 
   function formatDistance(venue) {
