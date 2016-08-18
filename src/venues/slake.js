@@ -10,5 +10,6 @@ export const data = {
 export async function scrape() {
   const body = await request.get(data.url);
   const $ = cheerio.load(body);
-  return Object.assign({ menu: $('#cff .cff-text:contains("Entree")') }, data);
+  const menu = $('#cff .cff-text:contains("Entree")');
+  return Object.assign({ menu }, data);
 }

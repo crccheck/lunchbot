@@ -27,9 +27,7 @@ lunch({distance: 500});
 
 ### Options
 
-* 'limit': `int` -- Only return this many venues
-* `openAt`: `Date` --  Only return venues that are open at this datetime
-* `withinMeters` : `Number` -- Only return venues that are within this many meters
+See documentation for `src/lunch._get`;
 
 Adding more venues
 ------------------
@@ -56,7 +54,7 @@ The `data` object has all the context needed to render a template to the user:
 
 * `name` (required) -- The human friendly name of the venue
 * `coordinates` (required) -- The lat/long of the venue
-* `url` -- The url to link to. If there's a url to the daily specials, this is it
+* `url` -- The url to link to.
 * `menu` -- A `cheerio` object representing the html for what the menu/special is.
   This is always scraped from `url`. Can also just be a String.
 

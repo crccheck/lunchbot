@@ -37,7 +37,7 @@ function formatText(venues) {
       pretext: !idx && text,
       text: formatMenu(x[1].data.menu),
       footer: formatDistance(x[1]),
-      mrkdown_in: ['text'],
+      mrkdwn_in: ['text'],
     }));
 }
 
@@ -58,8 +58,12 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
 
   const messageContent = message.text.replace(myTest, '');
 
-  if (messageContent.search(/^lunch$/) !== -1) {
-    const venues = lunch();
+  if (messageContent.search(/^lunch\b/) !== -1) {
+    const apiOptions = {
+      onlyScrape: messageContent.search(/spec/) !== -1,
+      // TODO support more options
+    };
+    const venues = lunch(apiOptions);
     const attachments = formatText(venues);
 
     web.chat.postMessage(message.channel, undefined, { attachments }, (__, sentMessage) => {
@@ -75,6 +79,8 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
             console.log('updateMessage', err, res);
           }
         );
+      }, reason => {
+        console.warn(reason);
       });
     });
   }
