@@ -9,10 +9,13 @@ const FB_JSON = require('../fixtures/mythaimom.json');
 
 describe('mythaimom', () => {
   describe('scrape with a menu', () => {
+    let clock;
     before(() => {
       sinon.stub(request, 'get').returns(FB_JSON);
+      clock = sinon.useFakeTimers(new Date(FB_JSON.data[0].created_time).getTime());
     });
     after(() => {
+      clock.restore();
       request.get.restore();
     });
     it('extracts the special of the day from the json', () =>

@@ -10,6 +10,8 @@ export const data = {
 export async function scrape() {
   const body = await request.get(data.url);
   const $ = cheerio.load(body);
-  const menu = $('#cff .cff-text:contains("Entree")');
+  // TODO find specials better. It's written by hand on their end and they
+  // are not consistent at all. Tried: Entree
+  const menu = $('#cff .cff-text:contains("Slakewich")');
   return Object.assign({ menu }, data);
 }
