@@ -1,7 +1,7 @@
 import _values from 'lodash/values';
 import _toPairs from 'lodash/toPairs';
-import toMarkdown from 'to-markdown';
 import { WebClient } from '@slack/client';
+import toMarkdown from 'to-markdown';
 import lunch from './lunch';
 
 const token = process.env.SLACK_API_TOKEN;
@@ -41,9 +41,13 @@ export function formatText(venues) {
  */
 export function postToChannel(channel, apiOptions) {
   const venues = lunch(apiOptions);
-  const attachments = formatText(venues);
+  const data = {
+    link_names: false,
+    attachments: formatText(venues),
+    as_user: true,
+  };
 
-  web.chat.postMessage(channel, undefined, { attachments }, (__, sentMessage) => {
+  web.chat.postMessage(channel, undefined, data, (__, sentMessage) => {
     // console.log('postMessage', sentMessage)
     Promise.all(_values(venues).filter((x) => !!x.scrape).map((x) => x.scrape()))
     .then((values) => {
