@@ -14,7 +14,7 @@ const converters = [
   { filter: ['b', 'strong'], replacement: (content) => `*${content}*` },
 ];
 
-function formatText(venues) {
+export function formatText(venues) {
   function formatMenu(menu) {
     return (menu && (menu.html ? toMarkdown(menu.html(), { converters }) : menu)) || '';
   }
