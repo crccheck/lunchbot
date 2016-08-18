@@ -1,14 +1,12 @@
 help: ## Shows this help
 	@echo "$$(grep -h '#\{2\}' $(MAKEFILE_LIST) | sed 's/: #\{2\} /	/' | column -t -s '	')"
 
-slake: ## Slake
-	curl --silent http://slakecafe.com/ > $@.html
-
-stdavids: ## St. David's
-	curl --silent http://www.stdave.org/about/on-campus/thursday-lunch/ > $@.html
-
 messhall: ## Messhall Cafe
-	  export URL=$$(../../node_modules/.bin/babel-node --print --eval 'require("../../src/venues/messhall").data.url') && \
+slake: ## Slake
+stdavids: ## St. David's
+
+messhall slake stdavids:
+	export URL=$$(../../node_modules/.bin/babel-node --print --eval 'require("../../src/venues/%@").data.url') && \
 	  curl --silent $$URL > $@.html
 
 mythaimom: ## My Thai Mom
