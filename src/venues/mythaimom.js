@@ -18,6 +18,5 @@ export async function scrape() {
   const recentPosts = body.data.filter((x) => (now - new Date(x.created_time)) < 86400 * 1000);
   const recentMenuPosts = recentPosts.filter((x) => x.message.search(/menu/i) !== -1);
   const menu = recentMenuPosts.length ? recentMenuPosts[0].message : undefined;
-
-  return recentMenuPosts.length && Object.assign({ menu }, data);
+  return Object.assign({ menu }, data);
 }

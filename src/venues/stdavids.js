@@ -29,10 +29,10 @@ export async function scrape() {
   const body = await request.get(data.url);
   const $ = cheerio.load(body);
   const nodes = $('div.entry-content').children();
-  const $rv = $('<div/>');
+  const menu = $('<div/>');
   const { begin, end } = findOffsets(nodes);
-  $rv.append(nodes.slice(begin, end));
-  return Object.assign({ menu: $rv }, data);
+  menu.append(nodes.slice(begin, end));
+  return Object.assign({ menu }, data);
 }
 
 export function openAt(date) {

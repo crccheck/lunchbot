@@ -37,7 +37,7 @@ function formatText(venues) {
       pretext: !idx && text,
       text: formatMenu(x[1].data.menu),
       footer: formatDistance(x[1]),
-      mrkdown_in: ['text'],
+      mrkdwn_in: ['text'],
     }));
 }
 
