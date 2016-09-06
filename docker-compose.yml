@@ -1,0 +1,7 @@
+version: '2'
+services:
+  app:
+    build: .
+    environment:
+      SLACK_API_TOKEN: "xoxb-69519026422-dlc1uEv5c6skPYCR1noZgoMe"
+      FACEBOOK_APP_TOKEN: "1070447063031851|06jB6o0eiojV_TYAYs6RfcxGslE"
