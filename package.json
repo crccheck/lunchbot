@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "description": "Find local lunch spots",
   "main": "index.js",
+  "engines": {
+    "node": ">6"
+  },
   "scripts": {
+    "start": "babel-node index.js",
     "pretest": "eslint .",
     "test": "mocha --recursive --compilers js:babel-register"
   },
