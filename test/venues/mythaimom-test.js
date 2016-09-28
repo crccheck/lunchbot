@@ -7,7 +7,7 @@ import { scrape } from '../../src/venues/mythaimom';
 const FB_JSON = require('../fixtures/mythaimom.json');
 
 
-describe('mythaimom', () => {
+xdescribe('mythaimom', () => {
   describe('scrape with a menu', () => {
     let clock;
     before(() => {

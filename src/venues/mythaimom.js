@@ -8,7 +8,7 @@ export const data = {
   coordinates: [30.2720917, -97.7437975],
 };
 
-export async function scrape() {
+export async function zscrape() {
   const body = await request.get({
     url: FB_URL,
     qs: { access_token: process.env.FACEBOOK_APP_TOKEN },
