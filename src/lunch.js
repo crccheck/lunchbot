@@ -1,11 +1,11 @@
-import _ from 'lodash';
-import geodist from 'geodist';
+import _ from 'lodash'
+import geodist from 'geodist'
 
-const venueModules = require('require-all')(`${__dirname}/venues`);
+const venueModules = require('require-all')(`${__dirname}/venues`)
 
 export const HOMES = {
   capfac: [30.268899, -97.740614],
-};
+}
 
 /**
  * Internal function that does the actual work of collecting venues..
@@ -18,14 +18,13 @@ export const HOMES = {
  * @param  {Boolean} onlyScrape Only return venues that have scrapeable menus
  * @return {Object} venues A hash of venue objects
  */
-export function _get(venues,
+export function _get (venues,
                      limit = 5,
                      withinMeters = 3219, // 2 miles
                      openAt = new Date(), // TODO use coordinate-tz to localized
                      origin = HOMES.capfac,
-                     onlyScrape = false,
-                    ) {
-  const venuesHash = {};
+                     onlyScrape = false) {
+  const venuesHash = {}
   _.values(venues)
     // Only show open venues
     .filter((x) => (x.openAt ? x.openAt(openAt) : true))
@@ -35,30 +34,29 @@ export function _get(venues,
     // Annotate data with the distance and conditionally show them if close
     .forEach((x) => {
       if (x.data.coordinates) {
-        const distance = geodist(origin, x.data.coordinates, { unit: 'meters' });
+        const distance = geodist(origin, x.data.coordinates, { unit: 'meters' })
         if (distance < withinMeters) {
-          venuesHash[x.data.name] = Object.assign({}, x, { distance });
+          venuesHash[x.data.name] = Object.assign({}, x, { distance })
         }
       } else {
-        console.warn(`Missing coordinates, ${x.data.name} won't show`);
+        console.warn(`Missing coordinates, ${x.data.name} won't show`)
       }
-    });
-  const rv = _.fromPairs(_.slice(_.shuffle(_.toPairs(venuesHash)), 0, limit));
+    })
+  const rv = _.fromPairs(_.slice(_.shuffle(_.toPairs(venuesHash)), 0, limit))
   rv._meta = {
     total: _.keys(venuesHash).length,
     limit,
     withinMeters,
     openAt,
-  };
-  return rv;
+  }
+  return rv
 }
 
-export default function get(options = {}) {
+export default function get (options = {}) {
   return _get(venueModules,
               options.limit,
               options.distance,
               options.origin,
               options.openAt,
-              options.onlyScrape,
-             );
+              options.onlyScrape)
 }
