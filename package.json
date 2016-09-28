@@ -1,5 +1,5 @@
 {
-  "name": "@condenast/lunchbot",
+  "name": "lunchbot",
   "version": "0.0.0",
   "description": "Find local lunch spots",
   "main": "index.js",
