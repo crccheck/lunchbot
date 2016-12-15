@@ -36,6 +36,6 @@ export async function scrape () {
 }
 
 export function openAt (date) {
-  const dayHour = date.getUTCDay() * 100 + date.getUTCHours(); // eslint-disable-line
-  return (316 < dayHour && dayHour < 419); // eslint-disable-line
+  const dayHour = date.getUTCDay() * 100 + date.getUTCHours()
+  return (316 < dayHour && dayHour < 419) // eslint-disable-line
 }

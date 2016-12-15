@@ -10,4 +10,4 @@ RUN npm install
 
 COPY . /app
 
-CMD ["node_modules/.bin/babel-node", "index.js"]
+CMD ["npm", "start"]

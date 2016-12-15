@@ -5,6 +5,6 @@ export const data = {
 }
 
 export function openAt (date) {
-  const dayHour = date.getUTCDay() * 100 + date.getUTCHours(); // eslint-disable-line
-  return (416 < dayHour && dayHour < 519); // eslint-disable-line
+  const dayHour = date.getUTCDay() * 100 + date.getUTCHours()
+  return (416 < dayHour && dayHour < 519)  // eslint-disable-line
 }
